@@ -24,7 +24,8 @@
     "eject": "react-scripts eject",
     "electron": "electron .",
     "preelectron-pack": "npm run build",
-    "electron-pack": "build --win -c.extraMetadata.main=build/electron-starter.js"
+    "electron-pack": "build --win -c.extraMetadata.main=build/electron-starter.js",
+    "server-start":"node public/server/express-app.js"
   },
   "build": {
     "files": [
