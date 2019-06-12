@@ -1,0 +1,20 @@
+.window {
+  /* background-color: rgba(50, 62, 75, 0.87); */
+}
+
+.search-bar{
+  position: relative;
+}
+
+.icon-create {
+  position: absolute;
+  top: 1px;
+  border: 1px solid green;
+  padding: 9px 12px 9px 12px;
+  border-radius: 5px;
+}
+
+.icon-create:hover {
+  background-color: green;
+  cursor: pointer;
+}
