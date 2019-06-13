@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 class PasswordCard extends Component {
 
   delete = () => this.props.deleteCard(this.props.userData._id);
+  edit = ()=>this.props.editExistingCard(this.props.id);
 
   render() {
     return (
@@ -15,6 +16,8 @@ class PasswordCard extends Component {
                   id="title">{this.props.userData.title}
                 <span className="fa fa-trash pull-right icon-delete"
                       onClick={this.delete}></span>
+                <span className="fa fa-edit pull-right icon-delete"
+                      onClick={this.edit}></span>
               </h5>
 
               <div className="card-text">

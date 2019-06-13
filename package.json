@@ -2,6 +2,7 @@
   "name": "password-store-app",
   "version": "0.1.0",
   "private": true,
+  "author":"Naga Sarath Chand Valluri",
   "dependencies": {
     "body-parser": "^1.19.0",
     "bootstrap": "^4.3.1",

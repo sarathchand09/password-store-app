@@ -14,7 +14,9 @@ class App extends React.Component {
     this.state = {
       searchText: '',
       passwords: [],
-      editMode: false
+      editMode: false,
+      edit: [],
+      updateMode:false,
     }
   }
 
@@ -38,24 +40,32 @@ class App extends React.Component {
   };
 
   delete = (id) => {
-    fetch('http://localhost:5000/delete/' + id,{method:'delete'})
+    fetch('http://localhost:5000/delete/' + id, {method: 'delete'})
     .then(() => this.getPasswords());
   };
 
   handleSearch = (text) => this.setState(
       {searchText: text, passwords: this.state.passwords});
 
-  updatePassword = (updatedData) => {
+  updatePassword = (updatedData, key) => {
     this.update(updatedData)
     .then(() => this.getPasswords());
-    this.editMode();
+    this.editMode(key);
   };
 
   render() {
+    let editState = {
+      title: '',
+      username: '',
+      password: '',
+      lastUpdated: '',
+      description: ''
+    };
     let updateCard;
     let editMode = this.state.editMode;
     if (editMode) {
-      updateCard = <UpdateCard onUpdate={this.updatePassword} cancel={this.editMode}></UpdateCard>
+      updateCard = <UpdateCard onUpdate={this.updatePassword} userData={editState}
+                               cancel={this.editMode}></UpdateCard>
     }
     return (
         <div className="pl-4 pr-4 window">
@@ -72,15 +82,37 @@ class App extends React.Component {
               this.state.passwords
               .filter(
                   password => password.title.includes(this.state.searchText))
-              .map((password, index) => <PasswordCard userData={password} deleteCard={this.delete}
-                                                      key={index}></PasswordCard>)
+              .map((password, index) => {
+                if (this.state.edit.some((found) => found == index)) {
+                  return <UpdateCard onUpdate={this.updatePassword}
+                                     userData={password} cancel={this.editMode}
+                                     key={index} id={index}></UpdateCard>
+                }
+                return <PasswordCard userData={password} editExistingCard={this.editExistingCard}
+                                     deleteCard={this.delete}
+                                     key={index} id={index}></PasswordCard>
+
+              })
             }
           </div>
         </div>
     );
   }
 
-  editMode = () => {
+  editExistingCard = (index)=> {
+    this.state.edit.push(index);
+    this.setState({updateMode:true});
+  }
+  editMode = (key) => {
+    let indexS=-1;
+    if(this.state.updateMode){
+      this.state.edit.map((val,index)=> {
+        if(val==key)
+          indexS = index;
+      });
+      this.setState({updateMode: false, edit:this.state.edit.slice(indexS,indexS)});
+    }
+    else
     this.setState({editMode: !this.state.editMode});
   }
 
