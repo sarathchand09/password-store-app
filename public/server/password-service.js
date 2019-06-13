@@ -17,6 +17,16 @@ const PasswordService = function (app) {
     })
   });
 
+  app.get('/search/:text', (req, res) => {
+    let text = req.params.text ;
+    db.find({title: {"$regex": new RegExp(text,'i')}}, {multi: true}, (err, docs) => {
+      if (err) {
+        console.log(err)
+      }
+      res.send(docs);
+    })
+  });
+
   app.post('/update', (req, res) => {
     req.body.lastUpdated = new Date().toDateString();
     if (req.body._id) {
