@@ -114,8 +114,16 @@ class App extends React.Component {
           indexS = index;
         }
       });
-      this.setState(
-          {updateMode: false, edit: this.state.edit.slice(indexS, indexS)});
+      delete this.state.edit[indexS];
+      console.log(indexS);
+      console.log(this.state.edit);
+      if (this.state.edit.length >= 1) {
+        this.setState({updateMode: true});
+      }
+      else {
+        this.setState(
+            {updateMode: false});
+      }
     }
     else {
       this.setState({editMode: !this.state.editMode});
