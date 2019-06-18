@@ -4,13 +4,19 @@
 /node_modules
 /.pnp
 .pnp.js
+/data.db
+/dist/latest.yml
+/dist/password-store-app - Shortcut.lnk
+/dist/password-store-app Setup 0.1.0.exe.blockmap
+/dist/win-unpacked
+/.idea
+/*.iml
 
 # testing
 /coverage
 
 # production
 /build
-/dist
 
 # misc
 .DS_Store
