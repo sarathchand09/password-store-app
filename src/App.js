@@ -47,7 +47,7 @@ class App extends React.Component {
     fetch('http://localhost:5000/search/' + text)
     .then((result) => result.json())
     .then((passwords) => this.setState({passwords: passwords}))
-  }
+  };
 
   updatePassword = (updatedData, key) => {
     this.update(updatedData)
@@ -104,10 +104,10 @@ class App extends React.Component {
   editExistingCard = (index) => {
     this.state.edit.push(index);
     this.setState({updateMode: true});
-  }
+  };
 
   editMode = (key) => {
-    let indexS = -1;
+    let indexS = 0;
     if (this.state.updateMode) {
       this.state.edit.map((val, index) => {
         if (val == key) {
