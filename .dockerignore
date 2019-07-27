@@ -1,0 +1,6 @@
+.git/*
+.idea/*
+build/*
+dist/*
+exe/*
+node_modules/*
