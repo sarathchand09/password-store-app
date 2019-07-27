@@ -24,14 +24,15 @@ class App extends React.Component {
   }
 
   getPasswords = () => {
-    fetch('http://localhost:5000/passwords')
+    fetch('/passwords')
     .then((result) => result.json())
     .then(data => this.setState(
-        {passwords: data, searchText: '', editMode: false}));
+        {passwords: data, searchText: '', editMode: false}))
+		.catch((err) => console.log(err));
   };
 
   update = (data) => {
-    return fetch('http://localhost:5000/update', {
+    return fetch('/update', {
       method: 'post',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(data)
@@ -39,12 +40,12 @@ class App extends React.Component {
   };
 
   delete = (id) => {
-    fetch('http://localhost:5000/delete/' + id, {method: 'delete'})
+    fetch('/delete/' + id, {method: 'delete'})
     .then(() => this.getPasswords());
   };
 
   handleSearch = (text) => {
-    fetch('http://localhost:5000/search/' + text)
+    fetch('/search/' + text)
     .then((result) => result.json())
     .then((passwords) => this.setState({passwords: passwords}))
   };
@@ -129,7 +130,6 @@ class App extends React.Component {
       this.setState({editMode: !this.state.editMode});
     }
   }
-
 }
 
 export default App;
