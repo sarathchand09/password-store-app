@@ -13,10 +13,14 @@ COPY . .
 RUN npm run build
 
 ### STAGE 2: Setup ###
-FROM node:8.7.0-alpine
+FROM nginx:1.14.1-alpine
 
-COPY --from=build /app/build /usr/src/app
+## Copy our default nginx config
+#COPY nginx/default.conf /etc/nginx/conf.d/
 
-WORKDIR /usr/src/app
+## Remove default nginx website
+RUN rm -rf /usr/share/nginx/html/*
 
+COPY --from=build /app/build /usr/share/nginx/html
 
+CMD ["nginx", "-g", "daemon off;"]
