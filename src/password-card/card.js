@@ -34,7 +34,7 @@ class PasswordCard extends Component {
                   ? <span id="password">{this.props.userData.password}</span>
                   : <span class="passwordStar">******</span>
               }
-              <a class="btn" onClick={this.showPassword}>show</a>
+              <a class="btn" onClick={this.showPassword}>Show</a>
             </div>
             <div className="mt-2">
               last updated :

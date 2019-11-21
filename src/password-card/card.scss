@@ -1,10 +1,15 @@
-.icon-delete{
+.icon-delete {
   cursor: pointer;
 }
 
 .btn {
-  background-color: green;
+  border-color: green;
   margin-left: 10px;
   cursor: pointer;
   padding: 2px 4px;
+  font-size: 17px;
+}
+
+.btn:hover{
+  background-color: green;
 }
