@@ -1,13 +1,24 @@
-.icon-save{
-  color: #0384d9;
-  &:hover{
+@mixin action($color) {
+  color: $color;
+  padding-top: 18px;
+  &:hover {
     cursor: pointer;
   }
 }
 
-.icon-cancel{
-  color: darkred;
-  &:hover{
-    cursor: pointer;
-  }
+.icon-save {
+  @include action(#0384d9);
+}
+
+.icon-cancel {
+  @include action(darkred);
+}
+
+input {
+  margin-top: 12px;
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
 }

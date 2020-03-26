@@ -14,4 +14,4 @@ app.use(express.static(require('path').dirname(require.main.filename)));
 // app.use(express.static('./build'));
 
 new PasswordService(app);
-app.listen(port, ()=> console.log('express app on port ${port} is up and running !!!'));
+app.listen(port, ()=> console.log('express app on port', port, 'is up and running !!!'));
