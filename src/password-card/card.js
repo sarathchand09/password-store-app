@@ -30,7 +30,7 @@ class PasswordCard extends Component {
               <span id="username">  username : {this.props.userData.username}</span>
               <span>
               password : {this.state.showPassword ?this.props.userData.password : '******'}
-              <a class="btn" onClick={this.showPassword}>{this.state.showPassword ?'Hide': 'Show'}</a>
+              <a className="btn" onClick={this.showPassword}>{this.state.showPassword ?'Hide': 'Show'}</a>
               </span>
 
               <span id="lastUpdated">  last updated : {this.props.userData.lastUpdated}</span>
