@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import "./update-card.scss";
 class UpdateCard extends Component {
+
   constructor(props) {
     super(props);
     this.state = {
@@ -19,7 +20,6 @@ class UpdateCard extends Component {
   usernameChanged = eve => this.setState({ username: eve.target.value });
   passwordChanged = eve => this.setState({ password: eve.target.value });
   descriptionChanged = eve => this.setState({ description: eve.target.value });
-
 
   render() {
     return (
@@ -45,20 +45,17 @@ class UpdateCard extends Component {
               id="username"
               value={this.state.username}
               placeholder="username"
-              onChange={this.usernameChanged}
-            ></input>
+              onChange={this.usernameChanged}></input>
             <input
               id="password"
               value={this.state.password}
               placeholder="password"
-              onChange={this.passwordChanged}
-            ></input>
+              onChange={this.passwordChanged}></input>
             <input
               id="description"
               value={this.state.description}
               placeholder="description"
-              onChange={this.descriptionChanged}
-            ></input>
+              onChange={this.descriptionChanged}></input>
 
           </div>
         </div>

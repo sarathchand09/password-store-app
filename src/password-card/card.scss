@@ -1,4 +1,4 @@
-.icon-delete {
+.curser {
   cursor: pointer;
 }
 
@@ -8,8 +8,15 @@
   cursor: pointer;
   padding: 2px 4px;
   font-size: 17px;
+  &:hover{
+    background-color: green;
+  }
 }
 
-.btn:hover{
-  background-color: green;
+.card-text {
+  display: flex;
+  flex-direction: column;
+  span {
+      margin-top: 16px;
+  }
 }
