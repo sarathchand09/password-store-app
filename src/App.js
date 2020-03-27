@@ -10,6 +10,7 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent";
 import Switch from "@material-ui/core/Switch";
+import ReactDOM from "react-dom";
 
 class App extends React.Component {
   constructor() {
@@ -88,8 +89,8 @@ class App extends React.Component {
   };
 
   darkThemeClass = () => {
-    return this.state.darkTheme ? 'dark-theme' : '';
-  }
+    return this.state.darkTheme ? "dark-theme" : "";
+  };
 
   render() {
     return (
@@ -129,6 +130,10 @@ class App extends React.Component {
 
   handleChange = event => {
     this.setState({ darkTheme: !this.state.darkTheme });
+    document.getElementsByTagName("html")[0].style.backgroundColor = this.state
+      .darkTheme
+      ? "white"
+      : "rgba(50, 62, 75, 0.87)";
   };
 
   updateCard = (index, password) => {
@@ -162,7 +167,9 @@ class App extends React.Component {
   createPasswordDialog = () => {
     return (
       <Dialog open={true}>
-        <DialogTitle className={this.darkThemeClass()}>Create Password</DialogTitle>
+        <DialogTitle className={this.darkThemeClass()}>
+          Create Password
+        </DialogTitle>
         <DialogContent className={this.darkThemeClass()}>
           <UpdateCard
             onUpdate={this.createPassword}

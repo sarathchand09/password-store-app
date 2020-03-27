@@ -6,13 +6,12 @@ let win;
 
 function createWindow(){
   win = new BrowserWindow({
-  width: 800,
-  height:600,
   webPreferences: {
       nodeIntegration: true
     }
   })
 
+win.maximize();
 // win.loadFile('index.html')
 // win.loadURL(`file://${path.join(__dirname, '../build/index.html')}`)
 win.loadURL('http://localhost:5000/index.html');
