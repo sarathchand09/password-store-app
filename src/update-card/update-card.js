@@ -24,8 +24,8 @@ class UpdateCard extends Component {
   render() {
     return (
       <div className={this.props.containerSize}>
-        <div className="card" >
-          <div className="card-body">
+        <div className={`card ${this.props.margin}`}>
+          <div className={`card-body ${this.props.darkTheme}`}>
             <div>
               <input
                 className="card-title"

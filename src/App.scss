@@ -1,20 +1,26 @@
-.window {
-  /* background-color: rgba(50, 62, 75, 0.87); */
-}
+@import "./base.scss";
 
-.search-bar{
+.relative {
   position: relative;
 }
 
-.icon-create {
+@mixin action() {
   position: absolute;
   top: 18px;
-  border: 1px solid green;
-  padding: 9px 12px 9px 12px;
-  border-radius: 5px;
 }
 
-.icon-create:hover {
-  background-color: green;
-  cursor: pointer;
+.icon-create {
+  @include action();
+  border: 1px solid green;
+  padding: 9px 12px;
+  border-radius: 5px;
+  &:hover {
+    background-color: green;
+    cursor: pointer;
+  }
+}
+
+.switch {
+  @include action();
+  right: 140px;
 }

@@ -9,6 +9,7 @@ import UpdateCard from "./update-card/update-card.js";
 import Dialog from "@material-ui/core/Dialog";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent";
+import Switch from "@material-ui/core/Switch";
 
 class App extends React.Component {
   constructor() {
@@ -16,7 +17,9 @@ class App extends React.Component {
     this.state = {
       passwords: [],
       createCard: false,
-      edit: []
+      edit: [],
+      cardSize: "col-md-5 col-xs-5 col-xl-5 col-sm-5 mt-5",
+      darkTheme: false
     };
   }
 
@@ -58,7 +61,7 @@ class App extends React.Component {
   };
 
   updateAndGet = updatedData => {
-   return  this.update(updatedData).then(() => this.getPasswords());
+    return this.update(updatedData).then(() => this.getPasswords());
   };
 
   updatePassword = (updatedData, key) => {
@@ -81,24 +84,37 @@ class App extends React.Component {
   editMode = key => {
     const editedCards = this.state.edit;
     editedCards.splice(editedCards.indexOf(key));
-    this.setState({edit: editedCards })
+    this.setState({ edit: editedCards });
   };
+
+  darkThemeClass = () => {
+    return this.state.darkTheme ? 'dark-theme' : '';
+  }
 
   render() {
     return (
-      <div className="pl-4 pr-4 window">
-        <div className="row mt-5 ml-1">
+      <div className={`pl-4 pr-4  ${this.darkThemeClass()}`}>
+        <div className="row mt-5 ml-1 relative">
           <Search onSearch={this.handleSearch}></Search>
-          <div className="search-bar">
+          <div>
             <span
               className="fa fa-sign-in icon-create"
               aria-hidden="true"
               onClick={this.creatCardDialogue}
-            ></span>
+            />
+          </div>
+
+          <div className="switch">
+            <Switch
+              checked={this.state.darkTheme}
+              onClick={this.handleChange}
+              name="Dark Theme"
+              color="secondary"
+            />
           </div>
         </div>
 
-        {this.state.createCard ? this.createPasswordDialog() : ""}
+        <div> {this.state.createCard ? this.createPasswordDialog() : ""}</div>
 
         <div className="row mb-4">
           {this.state.passwords.map((password, index) =>
@@ -111,13 +127,18 @@ class App extends React.Component {
     );
   }
 
+  handleChange = event => {
+    this.setState({ darkTheme: !this.state.darkTheme });
+  };
+
   updateCard = (index, password) => {
     return (
       <UpdateCard
         onUpdate={this.updatePassword}
-        containerSize="col-md-5 col-xs-5 col-xl-5 col-sm-5 mt-5"
+        containerSize={this.state.cardSize}
         userData={password}
         cancel={this.editMode}
+        darkTheme={this.darkThemeClass()}
         key={index}
         id={index}
       ></UpdateCard>
@@ -128,8 +149,10 @@ class App extends React.Component {
     return (
       <PasswordCard
         userData={password}
+        containerSize={this.state.cardSize}
         editExistingCard={this.editExistingCard}
         deleteCard={this.delete}
+        darkTheme={this.darkThemeClass()}
         key={index}
         id={index}
       ></PasswordCard>
@@ -139,11 +162,13 @@ class App extends React.Component {
   createPasswordDialog = () => {
     return (
       <Dialog open={true}>
-        <DialogTitle>Create Password</DialogTitle>
-        <DialogContent>
+        <DialogTitle className={this.darkThemeClass()}>Create Password</DialogTitle>
+        <DialogContent className={this.darkThemeClass()}>
           <UpdateCard
             onUpdate={this.createPassword}
             cancel={this.creatCardDialogue}
+            darkTheme={this.darkThemeClass()}
+            margin="mb-4 ml-4 mr-4"
           ></UpdateCard>
         </DialogContent>
       </Dialog>

@@ -16,10 +16,11 @@ class PasswordCard extends Component {
   showPassword = () => this.setState({showPassword: !this.state.showPassword});
 
   render() {
-    return (<div className="col-md-5 col-xs-5 col-xl-5 col-sm-5">
-      <div className="card mt-5">
+    return (
+    <div className={this.props.containerSize}>
+      <div className="card">
 
-        <div className="card-body">
+        <div className={`card-body  ${this.props.darkTheme}`}>
 
           <h5 className="card-title" id="title">{this.props.userData.title}
             <span className="fa fa-trash pull-right curser" onClick={this.delete}></span>
@@ -32,7 +33,6 @@ class PasswordCard extends Component {
               password : {this.state.showPassword ?this.props.userData.password : '******'}
               <a className="btn" onClick={this.showPassword}>{this.state.showPassword ?'Hide': 'Show'}</a>
               </span>
-
               <span id="lastUpdated">  last updated : {this.props.userData.lastUpdated}</span>
               <span id="description">  description : {this.props.userData.description}</span>
 

@@ -1,3 +1,5 @@
+@import '../base.scss';
+
 @mixin action($color) {
   color: $color;
   padding-top: 18px;
