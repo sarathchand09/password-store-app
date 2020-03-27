@@ -35,12 +35,10 @@ class UpdateCard extends Component {
                 onChange={this.titleChanged}
               ></input>
 
-              <i
-                className="icon-cancel fa fa-times fa-lg pull-right "
-                onClick={() => this.props.cancel()}
+              <i className="icon-cancel fa fa-times fa-lg pull-right "
+                onClick={() => this.props.cancel(this.props.id)}
               ></i>
-              <i
-                className="icon-save fa fa-check fa-lg pull-right "
+              <i className="icon-save fa fa-check fa-lg pull-right "
                 onClick={this.update}
               ></i>
             </div>

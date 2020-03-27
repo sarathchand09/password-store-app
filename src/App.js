@@ -48,23 +48,25 @@ class App extends React.Component {
   };
 
   handleSearch = text => {
-    fetch("/search/" + text)
-      .then(result => result.json())
-      .then(passwords => this.setState({ passwords: passwords }));
+    if (!text || text.trim().length === 0) {
+      this.getPasswords();
+    } else {
+      fetch("/search/" + text)
+        .then(result => result.json())
+        .then(passwords => this.setState({ passwords: passwords }));
+    }
   };
 
   updateAndGet = updatedData => {
-    this.update(updatedData).then(() => this.getPasswords());
+   return  this.update(updatedData).then(() => this.getPasswords());
   };
 
   updatePassword = (updatedData, key) => {
-    this.updateAndGet(updatedData);
-    this.editMode(key);
+    this.updateAndGet(updatedData).then(() => this.editMode(key));
   };
 
   createPassword = (updatedData, key) => {
-    this.updateAndGet(updatedData);
-    this.createNewCard();
+    this.updateAndGet(updatedData).then(() => this.creatCardDialogue());
   };
 
   editExistingCard = index => {
@@ -72,13 +74,14 @@ class App extends React.Component {
     this.setState({ updateMode: true });
   };
 
-  createNewCard = () => {
+  creatCardDialogue = () => {
     this.setState({ createCard: !this.state.createCard });
   };
 
   editMode = key => {
-    const index = this.state.edit.findIndex(ele => ele === key);
-    delete this.state.edit[index];
+    const editedCards = this.state.edit;
+    editedCards.splice(editedCards.indexOf(key));
+    this.setState({edit: editedCards })
   };
 
   render() {
@@ -90,7 +93,7 @@ class App extends React.Component {
             <span
               className="fa fa-sign-in icon-create"
               aria-hidden="true"
-              onClick={this.createNewCard}
+              onClick={this.creatCardDialogue}
             ></span>
           </div>
         </div>
@@ -99,7 +102,7 @@ class App extends React.Component {
 
         <div className="row mb-4">
           {this.state.passwords.map((password, index) =>
-            this.state.edit.some(found => found == index)
+            this.state.edit.some(found => found === index)
               ? this.updateCard(index, password)
               : this.showPasswordCard(index, password)
           )}
@@ -140,7 +143,7 @@ class App extends React.Component {
         <DialogContent>
           <UpdateCard
             onUpdate={this.createPassword}
-            cancel={this.createNewCard}
+            cancel={this.creatCardDialogue}
           ></UpdateCard>
         </DialogContent>
       </Dialog>
