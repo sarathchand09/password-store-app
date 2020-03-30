@@ -1,6 +1,5 @@
 .search {
   position: relative;
-  padding-left: 0px;
 }
 
 .icon-search {
@@ -16,10 +15,10 @@
   padding-left: 29px;
   border-radius: 10px;
   border: 1px solid rgb(218, 214, 214);
-  font-size: 21px;
-}
+  font-size: 18px;
 
-.input-search:focus {
-  outline: none;
-  box-shadow: 0 0 5px rgba(17, 177, 223, 1);
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(17, 177, 223, 1);
+  }
 }

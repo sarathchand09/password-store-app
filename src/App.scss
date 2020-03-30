@@ -1,26 +1,19 @@
 @import "./base.scss";
 
-.relative {
-  position: relative;
-}
-
-@mixin action() {
-  position: absolute;
-  top: 18px;
-}
-
 .icon-create {
-  @include action();
   border: 1px solid green;
-  padding: 9px 12px;
+  padding: 9px 24% 9px 32%;
   border-radius: 5px;
+
   &:hover {
     background-color: green;
     cursor: pointer;
   }
 }
 
-.switch {
-  @include action();
-  right: 140px;
+.actions {
+  display: grid;
+  grid-template-columns: 80% 6% 5%;
+  align-items: center;
+  grid-column-gap: 2%;
 }

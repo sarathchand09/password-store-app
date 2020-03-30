@@ -40,7 +40,9 @@ class App extends React.Component {
   update = data => {
     return fetch("/update", {
       method: "post",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json"
+      },
       body: JSON.stringify(data)
     });
   };
@@ -79,7 +81,9 @@ class App extends React.Component {
   };
 
   creatCardDialogue = () => {
-    this.setState({ createCard: !this.state.createCard });
+    this.setState({
+      createCard: !this.state.createCard
+    });
   };
 
   editMode = key => {
@@ -95,27 +99,24 @@ class App extends React.Component {
   render() {
     return (
       <div className={`pl-4 pr-4  ${this.darkThemeClass()}`}>
-        <div className="row mt-5 ml-1 relative">
-          <Search onSearch={this.handleSearch}></Search>
-          <div>
+        <div className="actions mt-5">
+          <Search onSearch={this.handleSearch} />
+
             <span
               className="fa fa-sign-in icon-create"
               aria-hidden="true"
               onClick={this.creatCardDialogue}
             />
-          </div>
 
-          <div className="switch">
-            <Switch
-              checked={this.state.darkTheme}
-              onClick={this.handleChange}
-              name="Dark Theme"
-              color="secondary"
-            />
-          </div>
+          <Switch
+            checked={this.state.darkTheme}
+            onClick={this.handleChange}
+            name="Dark Theme"
+            color="secondary"
+          />
         </div>
 
-        <div> {this.state.createCard ? this.createPasswordDialog() : ""}</div>
+        {this.state.createCard ? this.createPasswordDialog() : ""}
 
         <div className="row mb-4">
           {this.state.passwords.map((password, index) =>
@@ -129,7 +130,9 @@ class App extends React.Component {
   }
 
   handleChange = event => {
-    this.setState({ darkTheme: !this.state.darkTheme });
+    this.setState({
+      darkTheme: !this.state.darkTheme
+    });
     document.getElementsByTagName("html")[0].style.backgroundColor = this.state
       .darkTheme
       ? "white"
