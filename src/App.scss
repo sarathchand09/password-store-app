@@ -17,3 +17,9 @@
   align-items: center;
   grid-column-gap: 2%;
 }
+
+.passwordCard{
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}

@@ -19,7 +19,7 @@ class App extends React.Component {
       passwords: [],
       createCard: false,
       edit: [],
-      cardSize: "col-md-5 col-xs-5 col-xl-5 col-sm-5 mt-5",
+      cardSize: "mt-5 mr-2",
       darkTheme: false
     };
   }
@@ -118,13 +118,14 @@ class App extends React.Component {
 
         {this.state.createCard ? this.createPasswordDialog() : ""}
 
-        <div className="row mb-4">
+        <div className="passwordCard">
           {this.state.passwords.map((password, index) =>
             this.state.edit.some(found => found === index)
               ? this.updateCard(index, password)
               : this.showPasswordCard(index, password)
           )}
         </div>
+
       </div>
     );
   }
@@ -143,10 +144,10 @@ class App extends React.Component {
     return (
       <UpdateCard
         onUpdate={this.updatePassword}
-        containerSize={this.state.cardSize}
         userData={password}
         cancel={this.editMode}
         darkTheme={this.darkThemeClass()}
+        containerSize={this.state.cardSize}
         key={index}
         id={index}
       ></UpdateCard>
@@ -157,10 +158,10 @@ class App extends React.Component {
     return (
       <PasswordCard
         userData={password}
-        containerSize={this.state.cardSize}
         editExistingCard={this.editExistingCard}
         deleteCard={this.delete}
         darkTheme={this.darkThemeClass()}
+        containerSize={this.state.cardSize}
         key={index}
         id={index}
       ></PasswordCard>
