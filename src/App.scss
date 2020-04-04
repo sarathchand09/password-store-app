@@ -11,14 +11,18 @@
   }
 }
 
-.actions {
-  display: grid;
-  grid-template-columns: 80% 6% 5%;
-  align-items: center;
-  grid-column-gap: 2%;
+.download:hover {
+  cursor: pointer;
 }
 
-.passwordCard{
+.actions {
+  display: grid;
+  grid-template-columns: 60% 4em 3em 3em;
+  align-items: center;
+  grid-column-gap: 1.5%;
+}
+
+.passwordCard {
   display: flex;
   justify-content: flex-start;
   flex-wrap: wrap;

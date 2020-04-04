@@ -1,6 +1,6 @@
 const PasswordService = function (app) {
-  var DataStore = require('nedb');
-  var db = new DataStore({filename: 'data.db', autoload: true});
+  const DataStore = require('nedb');
+  const db = new DataStore({filename: 'data.db', autoload: true});
 
   app.get('/passwords', (req, res) => {
     db.find({}, (err, docs) => {
@@ -41,6 +41,12 @@ const PasswordService = function (app) {
       }
       res.send({});
     })
+  })
+
+  app.get('/passwords/download', (req,res)=>{
+    db.find({}, (err, docs) => {
+      res.send(JSON.stringify(docs));
+    });
   })
 
   const err = (error) => {
