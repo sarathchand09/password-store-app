@@ -23,7 +23,9 @@ class App extends React.Component {
             passwords: [],
             createCard: false,
             edit: [],
-            cardSize: "mt-5 mr-2",
+            cardSize: "mt-5 card-container",
+            showUploadPasswordDialog: false,
+            uploadedFile: null,
             darkTheme: false
         };
     }
@@ -57,6 +59,12 @@ class App extends React.Component {
         );
     };
 
+    deleteAll = () => {
+        this.downloadPasswords()
+            .then(() => fetch("/deleteAll", {method: "delete"}))
+            .then(() => this.getPasswords());
+    };
+
     handleSearch = text => {
         if (!text || text.trim().length === 0) {
             this.getPasswords();
@@ -68,12 +76,23 @@ class App extends React.Component {
     };
 
     downloadPasswords = () => {
-        fetch("/passwords/download")
+        return fetch("/passwords/download")
             .then(result => result.json())
             .then(passwords =>
                 saveAs(new Blob([JSON.stringify(passwords)], {type: "text/plain;charset=utf-8"}), "password-store.txt")
             )
             .catch(err => console.log(err));
+    }
+
+    uploadPasswords = (content) => {
+        fetch("/passwords/upload/", {
+            method: "post",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: content
+        }).then(() => this.getPasswords())
+            .then(result => console.log(result));
     }
 
     updateAndGet = updatedData => {
@@ -106,12 +125,12 @@ class App extends React.Component {
     };
 
     darkThemeClass = () => {
-        return this.state.darkTheme ? "dark-theme" : "";
+        return this.state && this.state.darkTheme ? "dark-theme" : "";
     };
 
     render() {
         return (
-            <div className={`pl-4 pr-4  ${this.darkThemeClass()}`}>
+            <div className={`pl-5 pr-2 ${this.darkThemeClass()}`}>
                 <div className="actions mt-5">
                     <Search onSearch={this.handleSearch}/>
 
@@ -124,20 +143,25 @@ class App extends React.Component {
                             name="Dark Theme"
                             color="secondary"/>
 
-                    <span className="fa fa-2x fa-arrow-circle-down download" aria-hidden="true"
+                    <span className="fa fa-2x fa-arrow-circle-down cursor" aria-hidden="true"
                           onClick={this.downloadPasswords}/>
+
+                    <span className="fa fa-2x fa-arrow-circle-up cursor" aria-hidden="true"
+                          onClick={() => this.setState({showUploadPasswordDialog: true})}/>
+
+                    <span className="fa fa-2x fa-trash cursor" aria-hidden="true"
+                          onClick={this.deleteAll}/>
                 </div>
 
-                {this.state.createCard ? this.createPasswordDialog() : ""}
+                {this.createPasswordDialog()}
+                {this.uploadPasswordFileDialog()}
 
                 <div className="passwordCard">
                     {this.state.passwords.map((password, index) =>
                         this.state.edit.some(found => found === index)
                             ? this.updateCard(index, password)
                             : this.showPasswordCard(index, password)
-                    )}
-                </div>
-
+                    )} </div>
             </div>
         );
     }
@@ -177,7 +201,7 @@ class App extends React.Component {
     };
     createPasswordDialog = () => {
         return (
-            <Dialog open={true}>
+            <Dialog open={this.state.createCard}>
                 <DialogTitle className={this.darkThemeClass()}> Create Password </DialogTitle>
                 <DialogContent className={this.darkThemeClass()}>
                     <UpdateCard onUpdate={this.createPassword}
@@ -188,6 +212,32 @@ class App extends React.Component {
             </Dialog>
         );
     };
+
+    uploadPasswordFileDialog = () => {
+        return (<Dialog open={this.state.showUploadPasswordDialog}>
+            <DialogTitle className={this.darkThemeClass()}> Upload Password File
+                <i className="fa fa-close pull-right cursor"
+                   onClick={() => this.setState({showUploadPasswordDialog: false})}/>
+                <i className="fa fa-upload pull-right cursor mr-1" onClick={() => this.upload()}/>
+            </DialogTitle>
+            <DialogContent className={this.darkThemeClass()}>
+                <input type="file" className="mr-4 mb-4" onChange={this.onFileUploadHandler}/>
+            </DialogContent>
+        </Dialog>)
+    }
+
+    onFileUploadHandler = event => {
+        this.setState({uploadedFile: event.target.files[0]})
+    }
+
+    upload = () => {
+        let reader = new FileReader();
+        reader.onload = (event) => {
+            this.uploadPasswords(event.target.result);
+            this.setState({showUploadPasswordDialog: false});
+        }
+        reader.readAsText(this.state.uploadedFile);
+    }
 }
 
 export default App;

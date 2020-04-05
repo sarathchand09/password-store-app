@@ -11,19 +11,44 @@
   }
 }
 
-.download:hover {
+.cursor:hover {
   cursor: pointer;
 }
 
 .actions {
   display: grid;
-  grid-template-columns: 60% 4em 3em 3em;
+  grid-template-columns: 64% 4em 3em 2em 2em 2em;
   align-items: center;
   grid-column-gap: 1.5%;
+
+  @media only screen and (max-width: 780px) {
+    grid-template-columns: 46% 4em 3em 2em 2em 2em;
+  }
 }
 
 .passwordCard {
   display: flex;
   justify-content: flex-start;
   flex-wrap: wrap;
+
+  .card-container {
+    flex-basis: 26%;
+    margin-right: 2%;
+  }
+
+  .card-container {
+    @media only screen and (min-width: 780px) and (max-width: 1420px) {
+      flex-basis: 45%;
+    }
+
+    @media only screen and (max-width: 780px) {
+      flex-basis: 75%;
+    }
+  }
+}
+
+@media only screen and (max-width: 780px) {
+  .passwordCard, .actions {
+    justify-content: center;
+  }
 }
