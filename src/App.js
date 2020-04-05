@@ -156,7 +156,7 @@ class App extends React.Component {
                 {this.createPasswordDialog()}
                 {this.uploadPasswordFileDialog()}
 
-                <div className="passwordCard">
+                <div className="passwordCard mb-5">
                     {this.state.passwords.map((password, index) =>
                         this.state.edit.some(found => found === index)
                             ? this.updateCard(index, password)
