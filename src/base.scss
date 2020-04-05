@@ -1,5 +1,7 @@
+$dark-theme: rgba(50, 62, 75, 0.87);
+
 .dark-theme{
-  background-color: rgba(50, 62, 75, 0.87);
+  background-color: $dark-theme;
   color: white;
 }
 
