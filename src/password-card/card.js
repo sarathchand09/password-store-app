@@ -38,5 +38,4 @@ const PasswordCard = (props) => {
         </div>
     );
 }
-
 export default React.memo(PasswordCard);
