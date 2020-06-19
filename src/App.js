@@ -10,180 +10,151 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent";
 import Switch from "@material-ui/core/Switch";
-import ReactDOM from "react-dom";
+import services from './services';
 
 class App extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      passwords: [],
-      createCard: false,
-      edit: [],
-      cardSize: "mt-5 mr-2",
-      darkTheme: false
-    };
-  }
 
-  componentDidMount() {
-    this.getPasswords();
-  }
-
-  getPasswords = () => {
-    fetch("/passwords")
-      .then(result => result.json())
-      .then(data =>
-        this.setState({ passwords: data, searchText: "", editMode: false })
-      )
-      .catch(err => console.log(err));
-  };
-
-  update = data => {
-    return fetch("/update", {
-      method: "post",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(data)
-    });
-  };
-
-  delete = id => {
-    fetch("/delete/" + id, { method: "delete" }).then(() =>
-      this.getPasswords()
-    );
-  };
-
-  handleSearch = text => {
-    if (!text || text.trim().length === 0) {
-      this.getPasswords();
-    } else {
-      fetch("/search/" + text)
-        .then(result => result.json())
-        .then(passwords => this.setState({ passwords: passwords }));
+    constructor(props) {
+        super(props);
+        this.state = {
+            passwords: [],
+            createCard: false,
+            edit: [],
+            cardSize: "mt-5 mr-2",
+            darkTheme: false
+        };
     }
-  };
 
-  updateAndGet = updatedData => {
-    return this.update(updatedData).then(() => this.getPasswords());
-  };
+    componentDidMount() {
+        services.getPasswords.call(this);
+    }
 
-  updatePassword = (updatedData, key) => {
-    this.updateAndGet(updatedData).then(() => this.editMode(key));
-  };
+    delete = id => {
+        services.deletePassword.call(this, id);
+    };
 
-  createPassword = (updatedData, key) => {
-    this.updateAndGet(updatedData).then(() => this.creatCardDialogue());
-  };
+    updateAndGet = updatedData => {
+        return services.update(updatedData).then(() => services.getPasswords.call(this));
+    };
 
-  editExistingCard = index => {
-    this.state.edit.push(index);
-    this.setState({ updateMode: true });
-  };
+    updatePassword = (updatedData, key) => {
+        this.updateAndGet(updatedData).then(() => this.editMode(key));
+    };
 
-  creatCardDialogue = () => {
-    this.setState({
-      createCard: !this.state.createCard
-    });
-  };
+    createPassword = (updatedData, key) => {
+        this.updateAndGet(updatedData).then(() => this.creatCardDialogue());
+    };
 
-  editMode = key => {
-    const editedCards = this.state.edit;
-    editedCards.splice(editedCards.indexOf(key));
-    this.setState({ edit: editedCards });
-  };
+    editExistingCard = index => {
+        this.state.edit.push(index);
+        this.setState({updateMode: true});
+    };
 
-  darkThemeClass = () => {
-    return this.state.darkTheme ? "dark-theme" : "";
-  };
+    creatCardDialogue = () => {
+        this.setState({
+            createCard: !this.state.createCard
+        });
+    };
 
-  render() {
-    return (
-      <div className={`pl-4 pr-4  ${this.darkThemeClass()}`}>
-        <div className="actions mt-5">
-          <Search onSearch={this.handleSearch} />
+    editMode = key => {
+        const editedCards = this.state.edit;
+        editedCards.splice(editedCards.indexOf(key));
+        this.setState({edit: editedCards});
+    };
 
-            <span
-              className="fa fa-sign-in icon-create"
-              aria-hidden="true"
-              onClick={this.creatCardDialogue}
-            />
+    darkThemeClass = () => {
+        return this.state.darkTheme ? "dark-theme" : "";
+    };
 
-          <Switch
-            checked={this.state.darkTheme}
-            onClick={this.handleChange}
-            name="Dark Theme"
-            color="secondary"
-          />
-        </div>
+    render() {
+        return (
+            <div className={`pl-4 pr-4  ${this.darkThemeClass()}`}>
 
-        {this.state.createCard ? this.createPasswordDialog() : ""}
+                <div className="actions mt-5">
 
-        <div className="passwordCard">
-          {this.state.passwords.map((password, index) =>
-            this.state.edit.some(found => found === index)
-              ? this.updateCard(index, password)
-              : this.showPasswordCard(index, password)
-          )}
-        </div>
+                    <Search onSearch={services.handleSearch.bind(this)}/>
 
-      </div>
-    );
-  }
+                    <span
+                        className="fa fa-sign-in icon-create"
+                        aria-hidden="true"
+                        onClick={this.creatCardDialogue}/>
 
-  handleChange = event => {
-    this.setState({
-      darkTheme: !this.state.darkTheme
-    });
-    document.getElementsByTagName("html")[0].style.backgroundColor = this.state
-      .darkTheme
-      ? "white"
-      : "rgba(50, 62, 75, 0.87)";
-  };
+                    <Switch
+                        checked={this.state.darkTheme}
+                        onClick={this.handleChange}
+                        name="Dark Theme"
+                        color="secondary"/>
+                </div>
 
-  updateCard = (index, password) => {
-    return (
-      <UpdateCard
-        onUpdate={this.updatePassword}
-        userData={password}
-        cancel={this.editMode}
-        darkTheme={this.darkThemeClass()}
-        containerSize={this.state.cardSize}
-        key={index}
-        id={index}
-      ></UpdateCard>
-    );
-  };
+                {this.state.createCard ? this.createPasswordDialog() : ""}
 
-  showPasswordCard = (index, password) => {
-    return (
-      <PasswordCard
-        userData={password}
-        editExistingCard={this.editExistingCard}
-        deleteCard={this.delete}
-        darkTheme={this.darkThemeClass()}
-        containerSize={this.state.cardSize}
-        key={index}
-        id={index}
-      ></PasswordCard>
-    );
-  };
+                <div className="passwordCard">
+                    {this.state.passwords.map((password, index) =>
+                        this.state.edit.some(found => found === index)
+                            ? this.updateCard(index, password)
+                            : this.showPasswordCard(index, password)
+                    )}
+                </div>
 
-  createPasswordDialog = () => {
-    return (
-      <Dialog open={true}>
-        <DialogTitle className={this.darkThemeClass()}>
-          Create Password
-        </DialogTitle>
-        <DialogContent className={this.darkThemeClass()}>
-          <UpdateCard
-            onUpdate={this.createPassword}
-            cancel={this.creatCardDialogue}
-            darkTheme={this.darkThemeClass()}
-            margin="mb-4 ml-4 mr-4"
-          ></UpdateCard>
-        </DialogContent>
-      </Dialog>
-    );
-  };
+            </div>
+        );
+    }
+
+    handleChange = event => {
+        this.setState({
+            darkTheme: !this.state.darkTheme
+        });
+        document.getElementsByTagName("html")[0].style.backgroundColor = this.state
+            .darkTheme
+            ? "white"
+            : "rgba(50, 62, 75, 0.87)";
+    };
+
+    updateCard = (index, password) => {
+        return (
+            <UpdateCard
+                onUpdate={this.updatePassword}
+                userData={password}
+                cancel={this.editMode}
+                darkTheme={this.darkThemeClass()}
+                containerSize={this.state.cardSize}
+                key={index}
+                id={index}
+            ></UpdateCard>
+        );
+    };
+
+    showPasswordCard = (index, password) => {
+        return (
+            <PasswordCard
+                userData={password}
+                editExistingCard={this.editExistingCard}
+                deleteCard={this.delete}
+                darkTheme={this.darkThemeClass()}
+                containerSize={this.state.cardSize}
+                key={index}
+                id={index}
+            ></PasswordCard>
+        );
+    };
+
+    createPasswordDialog = () => {
+        return (
+            <Dialog open={true}>
+                <DialogTitle className={this.darkThemeClass()}>
+                    Create Password
+                </DialogTitle>
+                <DialogContent className={this.darkThemeClass()}>
+                    <UpdateCard
+                        onUpdate={this.createPassword}
+                        cancel={this.creatCardDialogue}
+                        darkTheme={this.darkThemeClass()}
+                        margin="mb-4 ml-4 mr-4"
+                    ></UpdateCard>
+                </DialogContent>
+            </Dialog>
+        );
+    };
 }
+
 export default App;
