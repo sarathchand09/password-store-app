@@ -1,7 +1,7 @@
 # password-store-app
 simple password store app where you can store and retrieve passwords built with react + electronjs+node + nedb + express = MERN Stack!
 
-#running without docker
+# running without docker
 update package.json url http:backend:5000 to http:localhost:5000
 
 # start backend
