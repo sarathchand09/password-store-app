@@ -62,7 +62,7 @@
     "electron": "^7.2.4",
     "electron-builder": "^20.43.0",
     "electron-packager": "^13.1.1",
-    "node-sass": "^4.12.0",
+    "node-sass": "^7.0.0",
     "react-autocomplete-cli": "0.0.3",
     "redux-devtools": "^3.5.0",
     "typescript": "^3.5.1"
