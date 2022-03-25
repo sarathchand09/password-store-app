@@ -59,7 +59,7 @@
   "proxy": "http://backend:5000",
   "devDependencies": {
     "@babel/plugin-syntax-optional-chaining": "^7.8.3",
-    "electron": "^7.2.4",
+    "electron": "^13.6.6",
     "electron-builder": "^20.43.0",
     "electron-packager": "^13.1.1",
     "node-sass": "^4.12.0",
